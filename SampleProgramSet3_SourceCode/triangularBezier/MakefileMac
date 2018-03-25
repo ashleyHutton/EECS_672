@@ -1,0 +1,33 @@
+CPP = g++ -std=c++11
+# Needs full cryph because it uses ProjPoint:
+INC = -I../cryphutil -I../glslutil -I../imageutil -I../mvcutil
+C_FLAGS = -fPIC -g -c -DGLFW_INCLUDE_GLEXT -DGLFW_INCLUDE_GLCOREARB $(INC)
+
+LINK = $(CPP) -fPIC -g
+# Needs full cryph because it uses ProjPoint:
+LOCAL_UTIL_LIBRARIES = ../lib/libcryph.so ../lib/libglsl.so ../lib/libimage.so ../lib/libmvc.so
+OGL_LIBRARIES = -L/usr/local/lib  -lglfw -framework OpenGL
+LIBS = $(LOCAL_UTIL_LIBRARIES) $(OGL_LIBRARIES)
+
+
+OBJS = tribezier.o TriBezierModel.o
+
+tribezier: $(OBJS) $(LOCAL_UTIL_LIBRARIES)
+	$(LINK) -g -o tribezier $(OBJS) $(LIBS) $(GL_LIBRARIES)
+
+../lib/libcryph.so: ../cryphutil/AffPoint.h ../cryphutil/AffPoint.c++
+	(cd ../cryphutil; make -f MakefileMac)
+
+../lib/libglsl.so: ../glslutil/ShaderIF.h ../glslutil/ShaderIF.c++
+	(cd ../glslutil; make -f MakefileMac)
+
+../lib/libimage.so: ../imageutil/ImageReader.h ../imageutil/ImageReader.c++
+	(cd ../imageutil; make -f MakefileMac)
+
+../lib/libmvc.so: ../mvcutil/Controller.c++ ../mvcutil/ModelView.c++
+	(cd ../mvcutil; make -f MakefileMac)
+
+tribezier.o: tribezier.c++
+	$(CPP) $(C_FLAGS) tribezier.c++
+TriBezierModel.o: TriBezierModel.h TriBezierModel.c++
+	$(CPP) $(C_FLAGS) TriBezierModel.c++

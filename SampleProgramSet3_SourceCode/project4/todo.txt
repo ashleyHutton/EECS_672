@@ -1,0 +1,4 @@
+- Ask about coloring when using texture mapping
+- How many examples of translucency do we need to do? Is 1 model (but 3 objects) okay?
+- Suggestions on which other technique(s) I shoud implement in my scene
+- Why is my fireplace pink

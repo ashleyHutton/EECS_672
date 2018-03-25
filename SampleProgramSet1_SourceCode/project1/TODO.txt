@@ -1,0 +1,5 @@
+To do:
+- Clean up documentation
+- Add name
+- Ask about color randomization for curves
+- Test on Linux machine
